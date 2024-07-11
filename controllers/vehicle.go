@@ -5,6 +5,7 @@ import (
 	"encoding/base64"
 	"fineArea/models"
 	"fineArea/service"
+	"fineArea/utils"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -22,6 +23,15 @@ func UploadVehicle(c *gin.Context) {
 	if err := c.BindJSON(&requestData); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "Invalid request data",
+		})
+		return
+	}
+
+	requestHash := c.GetHeader("Authorization")
+	localHash := utils.GenerateMD5Hash(requestData.File + requestData.Number)
+	if requestHash != localHash {
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"error": "Invalid request hash",
 		})
 		return
 	}

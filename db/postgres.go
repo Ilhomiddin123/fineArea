@@ -10,7 +10,7 @@ var conn *gorm.DB
 
 func Connect() {
 	// Подключение к PostgreSQL базе данных с помощью GORM
-	dsn := "host=localhost user=postgres password=12345 dbname=fine_area_db port=5432 sslmode=disable"
+	dsn := "host=localhost user=postgres password=postgres dbname=fine_area_db port=5432 sslmode=disable"
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
 		panic("failed to connect database")
